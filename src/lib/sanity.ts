@@ -1,7 +1,7 @@
 import { createClient } from "next-sanity";
 import type { Car, City } from "./data";
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!;
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "b1j47ohj";
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production";
 const apiVersion = "2024-01-01";
 
