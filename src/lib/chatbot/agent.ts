@@ -1,4 +1,5 @@
 import { ToolLoopAgent, tool, type InferAgentUIMessage } from "ai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { z } from "zod";
 import { DEALER, estimateOnRoadPrice, formatPrice } from "@/lib/data";
 import { getAllCars, getCarBySlug, getAllCities } from "@/lib/sanity";
@@ -7,7 +8,15 @@ import { deliverLead, saveLead, validateLead } from "@/lib/leads";
 // All pricing/EMI numbers MUST come from tools — the instructions forbid the
 // model from inventing figures, so hallucinated prices can't reach customers.
 
-const CHATBOT_MODEL = process.env.CHATBOT_MODEL ?? "anthropic/claude-sonnet-5";
+// Dev/cost-free path: set OPENROUTER_API_KEY to route the chatbot through an
+// OpenRouter free-tier model instead of paid AI Gateway calls. Unset it (or
+// deploy without it) to fall back to production's anthropic/claude-sonnet-5
+// via AI Gateway — no code change needed to switch.
+const CHATBOT_MODEL = process.env.OPENROUTER_API_KEY
+  ? createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })(
+      process.env.OPENROUTER_MODEL ?? "meta-llama/llama-3.3-70b-instruct:free"
+    )
+  : (process.env.CHATBOT_MODEL ?? "anthropic/claude-sonnet-5");
 
 function calculateEmi(principal: number, annualRate: number, months: number) {
   if (principal <= 0 || months <= 0) return 0;
