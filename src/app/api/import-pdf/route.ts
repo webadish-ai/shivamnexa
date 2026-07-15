@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "next-sanity";
+import { sanityWriteClient } from "@/lib/sanity";
 
-const sanityWriteClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
-  apiVersion: "2024-01-01",
-  useCdn: false,
-  token: process.env.SANITY_API_TOKEN,
-});
-
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_URL =
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
@@ -30,6 +22,10 @@ Valid fuelType values: Petrol, CNG, Diesel, Electric, Hybrid
 Valid transmission values: Manual, Automatic, AMT`;
 
 export async function POST(req: NextRequest) {
+  if (!GEMINI_API_KEY) {
+    return NextResponse.json({ error: "GEMINI_API_KEY is not configured." }, { status: 503 });
+  }
+
   const formData = await req.formData();
   const file = formData.get("pdf") as File | null;
   if (!file) return NextResponse.json({ error: "No PDF uploaded" }, { status: 400 });
