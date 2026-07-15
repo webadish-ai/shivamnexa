@@ -1,65 +1,171 @@
-import Image from "next/image";
+import Link from "next/link";
+import { LinkButton } from "@/components/ui/link-button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import CarCard from "@/components/CarCard";
+import LeadForm from "@/components/LeadForm";
+import { DEALER, formatPrice } from "@/lib/data";
+import { getAllCars, getAllCities } from "@/lib/sanity";
 
-export default function Home() {
+export default async function HomePage() {
+  const [CARS, CITIES] = await Promise.all([getAllCars(), getAllCities()]);
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      {/* Hero */}
+      <section className="bg-gradient-to-b from-muted/50 to-background py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <Badge className="mb-4">Authorized NEXA Dealer since {DEALER.since}</Badge>
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-4">
+                Maruti Suzuki NEXA Cars
+                <br />
+                <span className="text-primary">in Mumbai, Thane &amp; Palghar</span>
+              </h1>
+              <p className="text-lg text-muted-foreground mb-8 max-w-lg">
+                Explore the full range of premium NEXA cars — XL6, Grand Vitara, Jimny, Fronx,
+                Baleno, Invicto &amp; e-Vitara. Get the best on-road price and book a free test
+                drive at your nearest Shivam NEXA showroom.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <LinkButton size="lg" href="/contact">Book Free Test Drive</LinkButton>
+                <LinkButton variant="outline" size="lg" href="/cars">Explore All Cars</LinkButton>
+                <a
+                  href={`https://wa.me/91${DEALER.phone}?text=Hi, I want to know more about NEXA cars`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-md border text-sm font-medium hover:bg-accent transition-colors"
+                >
+                  💬 WhatsApp Us
+                </a>
+              </div>
+              <div className="mt-8 flex flex-wrap gap-6 text-sm text-muted-foreground">
+                {[
+                  { label: "Years of Trust", value: `${new Date().getFullYear() - DEALER.since}+` },
+                  { label: "Showrooms", value: `${DEALER.showrooms.length}` },
+                  { label: "NEXA Models", value: `${CARS.length}` },
+                  { label: "Cities Served", value: `${DEALER.cities.length}` },
+                ].map((stat) => (
+                  <div key={stat.label}>
+                    <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                    <p>{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <LeadForm formType="test-drive" className="shadow-lg" />
+          </div>
+        </div>
+      </section>
+
+      {/* Cars Grid */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold mb-2">Explore NEXA Cars</h2>
+            <p className="text-muted-foreground">
+              {CARS.length} premium models — starting from{" "}
+              {formatPrice(Math.min(...CARS.map((c) => c.startingPrice)))}
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {CARS.map((car) => (
+              <CarCard key={car.slug} car={car} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* City+Model links — critical for SEO internal linking */}
+      <section className="py-12 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold mb-2">NEXA Car Prices by City</h2>
+          <p className="text-muted-foreground mb-6">
+            Get accurate on-road prices, showroom details, and test drive booking for your city.
           </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {CITIES.flatMap((city) =>
+              CARS.map((car) => (
+                <Link
+                  key={`${car.slug}-${city.slug}`}
+                  href={`/cars/${car.slug}/${city.slug}`}
+                  className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-accent hover:border-primary/30 transition-all text-sm group"
+                >
+                  <span className="font-medium group-hover:text-primary transition-colors">
+                    {car.name} in {city.name}
+                  </span>
+                  <span className="text-muted-foreground text-xs shrink-0 ml-2">
+                    {formatPrice(car.startingPrice)}
+                  </span>
+                </Link>
+              ))
+            )}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Why Shivam NEXA */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold text-center mb-10">Why Choose Shivam NEXA?</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: "🏆",
+                title: `${new Date().getFullYear() - DEALER.since}+ Years of Trust`,
+                desc: "Authorized NEXA dealer since 2015 with thousands of happy customers.",
+              },
+              {
+                icon: "📍",
+                title: "4 Showroom Locations",
+                desc: "Convenient showrooms across Mumbai, Palghar & Thane.",
+              },
+              {
+                icon: "💰",
+                title: "Best On-Road Price",
+                desc: "Transparent pricing with best exchange value and finance options.",
+              },
+              {
+                icon: "🔧",
+                title: "Expert Service",
+                desc: "Certified NEXA technicians with genuine Maruti Suzuki parts.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="text-center p-6 rounded-xl border bg-card hover:shadow-md transition-shadow"
+              >
+                <div className="text-4xl mb-3">{item.icon}</div>
+                <h3 className="font-semibold mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <Separator />
+
+      {/* Showrooms */}
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold mb-6">Our Showrooms</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {DEALER.showrooms.map((showroom) => (
+              <div key={showroom.name} className="p-4 rounded-lg border bg-card">
+                <h3 className="font-semibold">{showroom.name}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{showroom.address}</p>
+                <a
+                  href={`tel:${DEALER.phone}`}
+                  className="text-sm text-primary mt-2 inline-block hover:underline"
+                >
+                  {DEALER.phone}
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
