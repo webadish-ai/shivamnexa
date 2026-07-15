@@ -1,5 +1,5 @@
 {
   "crons": [
-    { "path": "/api/cron/retry-leads", "schedule": "*/30 * * * *" }
+    { "path": "/api/cron/retry-leads", "schedule": "0 3 * * *" }
   ]
 }
