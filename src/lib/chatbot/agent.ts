@@ -14,7 +14,7 @@ import { deliverLead, saveLead, validateLead } from "@/lib/leads";
 // via AI Gateway — no code change needed to switch.
 const CHATBOT_MODEL = process.env.OPENROUTER_API_KEY
   ? createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })(
-      process.env.OPENROUTER_MODEL ?? "meta-llama/llama-3.3-70b-instruct:free"
+      process.env.OPENROUTER_MODEL ?? "openai/gpt-oss-20b:free"
     )
   : (process.env.CHATBOT_MODEL ?? "anthropic/claude-sonnet-5");
 
