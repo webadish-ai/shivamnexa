@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { draftMode } from "next/headers";
+import dynamic from "next/dynamic";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -8,6 +10,11 @@ import ChatWidget from "@/components/ChatWidget";
 import { autoDealerSchema } from "@/lib/schema";
 import { DEALER } from "@/lib/data";
 import { getAbsoluteUrl, SITE_URL } from "@/lib/site";
+import { SanityLive } from "@/lib/sanity";
+
+const VisualEditing = dynamic(() =>
+  import("next-sanity/visual-editing").then((m) => m.VisualEditing)
+);
 
 const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
@@ -44,7 +51,9 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const isDraftMode = (await draftMode()).isEnabled;
+
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="antialiased min-h-screen flex flex-col">
@@ -55,6 +64,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <UtmCapture />
         <main className="flex-1">{children}</main>
+        {isDraftMode && <VisualEditing />}
+        <SanityLive />
         <a
           href={`https://wa.me/91${DEALER.phone}?text=Hi, I want help with a NEXA car`}
           target="_blank"

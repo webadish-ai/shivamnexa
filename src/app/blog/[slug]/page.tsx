@@ -15,7 +15,7 @@ type Props = { params: Promise<{ slug: string }> };
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const posts = await getAllPosts();
+  const posts = await getAllPosts({ buildTime: true });
   return posts.map((post) => ({ slug: post.slug }));
 }
 

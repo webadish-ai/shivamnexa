@@ -24,7 +24,7 @@ import { getAbsoluteUrl } from "@/lib/site";
 type Props = { params: Promise<{ model: string }> };
 
 export async function generateStaticParams() {
-  const cars = await getAllCars();
+  const cars = await getAllCars({ buildTime: true });
   return cars.map((car) => ({ model: car.slug }));
 }
 

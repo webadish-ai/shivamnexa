@@ -17,7 +17,7 @@ export const revalidate = 3600;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const pages = await getAllPages();
+  const pages = await getAllPages({ buildTime: true });
   return pages.map((page) => ({ slug: page.slug }));
 }
 
