@@ -4,7 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
+import HlsVideoPlayer from "@/components/showcase/HlsVideoPlayer";
 import { Car, formatPrice, getCarImagePath } from "@/lib/data";
+import { getShowcaseModel } from "@/lib/showcase";
 
 type HeroSliderProps = {
   cars: Car[];
@@ -43,21 +45,39 @@ export default function HeroSlider({ cars }: HeroSliderProps) {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="relative h-[62vh] min-h-[420px] max-h-[680px] w-full">
-        {cars.map((car, i) => (
+        {cars.map((car, i) => {
+          const showcase = getShowcaseModel(car.slug);
+          const heroClip = showcase
+            ? (showcase.clips.find((clip) => clip.id === showcase.heroClipId) ?? showcase.clips[0])
+            : null;
+
+          return (
           <div
             key={car.slug}
             className="absolute inset-0 transition-opacity duration-700 ease-out"
             style={{ opacity: i === active ? 1 : 0, pointerEvents: i === active ? "auto" : "none" }}
             aria-hidden={i !== active}
           >
-            <Image
-              src={getCarImagePath(car.slug)}
-              alt={car.imageAlt || `${car.fullName} — Shivam NEXA`}
-              fill
-              priority={i === 0}
-              sizes="100vw"
-              className="object-cover"
-            />
+            {heroClip && i === active ? (
+              <HlsVideoPlayer
+                src={heroClip.manifest}
+                poster={heroClip.poster}
+                autoPlay
+                muted
+                loop
+                controls={false}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <Image
+                src={heroClip?.poster ?? getCarImagePath(car.slug)}
+                alt={car.imageAlt || `${car.fullName} — Shivam NEXA`}
+                fill
+                priority={i === 0}
+                sizes="100vw"
+                className="object-cover"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/10 to-transparent" />
 
@@ -91,7 +111,8 @@ export default function HeroSlider({ cars }: HeroSliderProps) {
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
 
         {cars.length > 1 && (
           <>
