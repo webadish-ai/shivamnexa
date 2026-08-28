@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import CarCard from "@/components/CarCard";
 import LeadForm from "@/components/LeadForm";
 import HeroSlider from "@/components/HeroSlider";
+import TrustStrip from "@/components/TrustStrip";
 import { DEALER, formatPrice } from "@/lib/data";
 import { getAllCars, getAllCities } from "@/lib/sanity";
 
@@ -13,6 +14,7 @@ export default async function HomePage() {
   return (
     <>
       <HeroSlider cars={CARS} />
+      <TrustStrip />
 
       {/* Hero */}
       <section className="bg-gradient-to-b from-muted/50 to-background py-16 md:py-24">

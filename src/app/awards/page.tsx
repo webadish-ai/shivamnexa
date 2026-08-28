@@ -1,14 +1,6 @@
 import type { Metadata } from "next";
 import { getAbsoluteUrl } from "@/lib/site";
-
-const awards = [
-  { title: "Most Effective Marketing Campaign", org: "NEXA", year: "2024" },
-  { title: "Most Effective Marketing Campaign", org: "NEXA", year: "2022" },
-  { title: "NEXA Alpha Dealer", org: "NEXA", year: "2023" },
-  { title: "NEXA Alpha Dealer", org: "NEXA", year: "2022" },
-  { title: "NEXA Challenger Trophy", org: "NEXA", year: "2023" },
-  { title: "Highest NEXA to MSIL Sales Contribution", org: "NEXA", year: "2019-20" },
-];
+import { AWARDS } from "@/lib/awards";
 
 export const metadata: Metadata = {
   title: "Awards & Achievements",
@@ -34,7 +26,7 @@ export default function AwardsPage() {
       </div>
 
       <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {awards.map((award) => (
+        {AWARDS.map((award) => (
           <article key={`${award.title}-${award.year}`} className="rounded-3xl border bg-card p-6">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">{award.org}</p>
             <h2 className="mt-3 text-xl font-semibold">{award.title}</h2>
