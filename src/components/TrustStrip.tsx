@@ -22,6 +22,25 @@ export default function TrustStrip() {
 
           <div className="hidden lg:block h-10 w-px bg-border shrink-0" />
 
+          <a
+            href={DEALER.googleReviewsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 shrink-0 group"
+          >
+            <span className="text-3xl">⭐</span>
+            <div>
+              <p className="font-bold text-lg leading-tight group-hover:underline">
+                {DEALER.googleRating} <span className="font-normal text-sm text-muted-foreground">/ 5</span>
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {(DEALER.googleReviewCount / 1000).toFixed(1)}K Google Reviews
+              </p>
+            </div>
+          </a>
+
+          <div className="hidden lg:block h-10 w-px bg-border shrink-0" />
+
           <div className="flex flex-wrap items-center gap-2">
             {recentAwards.map((award) => (
               <span

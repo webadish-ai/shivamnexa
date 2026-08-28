@@ -28,6 +28,11 @@ export function autoDealerSchema() {
       addressCountry: "IN",
     },
     openingHoursSpecification: OPENING_HOURS,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: DEALER.googleRating,
+      reviewCount: DEALER.googleReviewCount,
+    },
     brand: {
       "@type": "Brand",
       name: "Maruti Suzuki NEXA",

@@ -1031,6 +1031,10 @@ export const DEALER = {
   phone: "8828199999",
   servicePhone: "9773858585",
   email: "nexa@shivamauto.in",
+  // Update from the Google Business Profile when it changes.
+  googleRating: 4.8,
+  googleReviewCount: 4800,
+  googleReviewsUrl: "https://share.google/PUH1hYSDcsi9rrw8l",
   website: "https://shivamnexa.com",
   since: 2015,
   cities: ["Mumbai", "Thane", "Navi Mumbai", "Palghar"],
