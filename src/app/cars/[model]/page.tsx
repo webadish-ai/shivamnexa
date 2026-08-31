@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
 import { Separator } from "@/components/ui/separator";
 import LeadForm from "@/components/LeadForm";
+import BrochureDownload from "@/components/BrochureDownload";
 import CarDetailNav from "@/components/CarDetailNav";
 import EmiCalculator from "@/components/EmiCalculator";
 import ExchangeForm from "@/components/ExchangeForm";
@@ -171,6 +172,11 @@ export default async function CarModelPage({ params }: Props) {
                 >
                   💬 WhatsApp
                 </a>
+                <BrochureDownload
+                  carSlug={car.slug}
+                  carName={car.fullName}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-white/30 text-white text-sm font-medium hover:bg-white/10 transition-colors"
+                />
               </div>
             </div>
           </div>

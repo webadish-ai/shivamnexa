@@ -7,7 +7,7 @@ import { CARS } from "./data";
 import { sanityWriteClient } from "./sanity";
 import { createZohoLead, isZohoConfigured } from "./zoho";
 
-export type LeadType = "test-drive" | "quote" | "contact" | "exchange";
+export type LeadType = "test-drive" | "quote" | "contact" | "exchange" | "brochure";
 
 export type Utm = {
   source?: string;
@@ -49,7 +49,7 @@ export type LeadPayload = {
 
 export type DeliveryStatus = "pending" | "sent" | "failed" | "skipped";
 
-const VALID_TYPES = new Set<string>(["test-drive", "quote", "contact", "exchange"]);
+const VALID_TYPES = new Set<string>(["test-drive", "quote", "contact", "exchange", "brochure"]);
 
 function getCarName(carSlug: string) {
   return CARS.find((car) => car.slug === carSlug)?.fullName ?? carSlug;
@@ -204,6 +204,7 @@ async function sendViaResend(lead: LeadPayload) {
     quote: "New Price Quote Lead",
     contact: "New Contact Lead",
     exchange: "New Exchange / Old Car Valuation Lead",
+    brochure: "New Brochure Download Lead",
   };
 
   const from = process.env.LEAD_FROM_EMAIL!;
