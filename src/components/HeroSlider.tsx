@@ -61,7 +61,7 @@ export default function HeroSlider({ cars }: HeroSliderProps) {
             {heroClip && i === active ? (
               <HlsVideoPlayer
                 src={heroClip.manifest}
-                poster={heroClip.poster}
+                poster={getCarImagePath(car.slug)}
                 autoPlay
                 muted
                 loop
@@ -70,7 +70,7 @@ export default function HeroSlider({ cars }: HeroSliderProps) {
               />
             ) : (
               <Image
-                src={heroClip?.poster ?? getCarImagePath(car.slug)}
+                src={getCarImagePath(car.slug)}
                 alt={car.imageAlt || `${car.fullName} — Shivam NEXA`}
                 fill
                 priority={i === 0}
