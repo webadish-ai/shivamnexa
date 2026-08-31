@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import PageHero from "@/components/PageHero";
 import { DEALER } from "@/lib/data";
 import { getAbsoluteUrl } from "@/lib/site";
 
@@ -22,16 +23,16 @@ export const metadata: Metadata = {
 
 export default function AboutUsPage() {
   return (
-    <div className="container mx-auto px-4 py-12">
+    <>
+      <PageHero
+        eyebrow="About Shivam Autozone"
+        title="A Maruti Suzuki group built around long-term customer relationships"
+        image={{ src: "/images/hero/about-us.webp", alt: "Shivam NEXA showroom exterior" }}
+      />
+      <div className="container mx-auto px-4 py-12">
       <section className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-            About Shivam Autozone
-          </p>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight">
-            A Maruti Suzuki group built around long-term customer relationships
-          </h1>
-          <div className="mt-6 space-y-4 text-muted-foreground">
+          <div className="space-y-4 text-muted-foreground">
             <p>
               Shivam Autozone is an authorized Maruti Suzuki dealership group headquartered in
               Mumbai, with presence across multiple channels including NEXA, Arena, Commercial
@@ -135,6 +136,7 @@ export default function AboutUsPage() {
           ))}
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

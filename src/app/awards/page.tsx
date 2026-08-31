@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PageHero from "@/components/PageHero";
 import { getAbsoluteUrl } from "@/lib/site";
 import { AWARDS } from "@/lib/awards";
 
@@ -11,20 +12,14 @@ export const metadata: Metadata = {
 
 export default function AwardsPage() {
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-          Awards & Achievements
-        </p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight">
-          Recognition that supports trust at the lead stage
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          These recognitions from NEXA reinforce the sales and service credibility that matters
-          when a buyer compares dealerships online before booking a test drive.
-        </p>
-      </div>
-
+    <>
+      <PageHero
+        eyebrow="Awards & Achievements"
+        title="Recognition that supports trust at the lead stage"
+        subtitle="These recognitions from NEXA reinforce the sales and service credibility that matters when a buyer compares dealerships online before booking a test drive."
+        image={{ src: "/images/hero/awards.jpg", alt: "Award-winning NEXA dealership" }}
+      />
+      <div className="container mx-auto px-4 py-12">
       <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {AWARDS.map((award) => (
           <article key={`${award.title}-${award.year}`} className="rounded-3xl border bg-card p-6">
@@ -34,7 +29,8 @@ export default function AwardsPage() {
           </article>
         ))}
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 

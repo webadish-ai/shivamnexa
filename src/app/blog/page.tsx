@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import PageHero from "@/components/PageHero";
 import { getAllPosts } from "@/lib/sanity";
 import { urlForImage } from "@/lib/sanityImage";
 import { getAbsoluteUrl } from "@/lib/site";
@@ -19,7 +20,7 @@ export default async function BlogPage() {
   const posts = await getAllPosts();
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -31,15 +32,12 @@ export default async function BlogPage() {
           ),
         }}
       />
-      <div className="max-w-3xl mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold mb-3">
-          NEXA Car Guides &amp; News
-        </h1>
-        <p className="text-muted-foreground">
-          Buying guides, price updates, and ownership tips from the Shivam NEXA
-          team.
-        </p>
-      </div>
+      <PageHero
+        eyebrow="Shivam NEXA Blog"
+        title="NEXA Car Guides & News"
+        subtitle="Buying guides, price updates, and ownership tips from the Shivam NEXA team."
+      />
+      <div className="container mx-auto px-4 py-12">
 
       {posts.length === 0 ? (
         <p className="text-muted-foreground">No articles published yet — check back soon.</p>
@@ -87,6 +85,7 @@ export default async function BlogPage() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

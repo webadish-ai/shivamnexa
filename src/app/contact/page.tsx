@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import LeadForm from "@/components/LeadForm";
+import PageHero from "@/components/PageHero";
 import { DEALER } from "@/lib/data";
 import { getAbsoluteUrl } from "@/lib/site";
 
@@ -23,16 +24,14 @@ export default async function ContactPage({ searchParams }: Props) {
     ? (type as FormType)
     : "contact";
   return (
-    <div className="container mx-auto px-4 py-12">
+    <>
+      <PageHero
+        eyebrow="Get in Touch"
+        title="Contact Shivam NEXA"
+        subtitle="Book a test drive, get a price quote, or talk to our car experts. We respond within 30 minutes during business hours."
+      />
+      <div className="container mx-auto px-4 py-12">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold mb-2">Contact Shivam NEXA</h1>
-          <p className="text-muted-foreground">
-            Book a test drive, get a price quote, or talk to our car experts.
-            We respond within 30 minutes during business hours.
-          </p>
-        </div>
-
         <div className="grid lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-8">
             <div>
@@ -108,6 +107,7 @@ export default async function ContactPage({ searchParams }: Props) {
           <LeadForm formType={formType} preselectedCar={car} className="shadow-lg" />
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

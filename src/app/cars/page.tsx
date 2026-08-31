@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import CarCard from "@/components/CarCard";
+import PageHero from "@/components/PageHero";
 import { formatPrice } from "@/lib/data";
 import { getAllCars, getAllCities } from "@/lib/sanity";
 import { getAbsoluteUrl } from "@/lib/site";
@@ -15,20 +16,14 @@ export const metadata: Metadata = {
 export default async function CarsPage() {
   const [cars, cities] = await Promise.all([getAllCars(), getAllCities()]);
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-          Premium Range
-        </p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight">
-          Discover the full NEXA car lineup
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Compare premium hatchbacks, SUVs, MPVs and electric options, then move into city
-          pages for exact on-road price, variant details and faster test-drive enquiries.
-        </p>
-      </div>
-
+    <>
+      <PageHero
+        eyebrow="Premium Range"
+        title="Discover the full NEXA car lineup"
+        subtitle="Compare premium hatchbacks, SUVs, MPVs and electric options, then move into city pages for exact on-road price, variant details and faster test-drive enquiries."
+        image={{ src: "/cars/grand-vitara.jpg", alt: "Maruti Suzuki NEXA Grand Vitara" }}
+      />
+      <div className="container mx-auto px-4 py-12">
       <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {cars.map((car) => (
           <CarCard key={car.slug} car={car} />
@@ -60,6 +55,7 @@ export default async function CarsPage() {
           )}
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

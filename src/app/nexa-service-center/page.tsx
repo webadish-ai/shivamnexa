@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PageHero from "@/components/PageHero";
 import { DEALER } from "@/lib/data";
 import { getAbsoluteUrl } from "@/lib/site";
 
@@ -19,15 +20,15 @@ export const metadata: Metadata = {
 
 export default function NexaServiceCenterPage() {
   return (
-    <div className="container mx-auto px-4 py-12">
+    <>
+      <PageHero
+        eyebrow="NEXA Service Center"
+        title="Premium after-sales support that strengthens customer confidence"
+        image={{ src: "/images/hero/nexa-service-center.webp", alt: "Maruti Suzuki NEXA premium service center" }}
+      />
+      <div className="container mx-auto px-4 py-12">
       <section className="max-w-4xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-          NEXA Service Center
-        </p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight">
-          Premium after-sales support that strengthens customer confidence
-        </h1>
-        <div className="mt-6 space-y-4 text-muted-foreground">
+        <div className="space-y-4 text-muted-foreground">
           <p>
             NEXA service centers are designed to deliver a more premium ownership experience,
             with higher convenience, cleaner communication and better service visibility for
@@ -71,6 +72,7 @@ export default function NexaServiceCenterPage() {
           </Link>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

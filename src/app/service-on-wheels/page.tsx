@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PageHero from "@/components/PageHero";
 import { getAbsoluteUrl } from "@/lib/site";
 
 const benefits = [
@@ -18,16 +19,16 @@ export const metadata: Metadata = {
 
 export default function ServiceOnWheelsPage() {
   return (
-    <div className="container mx-auto px-4 py-12">
+    <>
+      <PageHero
+        eyebrow="Service on Wheels"
+        title="Doorstep support that keeps ownership convenient"
+        image={{ src: "/images/hero/service-on-wheels.webp", alt: "Shivam NEXA Service on Wheels mobile workshop vans" }}
+      />
+      <div className="container mx-auto px-4 py-12">
       <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-            Service on Wheels
-          </p>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight">
-            Doorstep support that keeps ownership convenient
-          </h1>
-          <div className="mt-6 space-y-4 text-muted-foreground">
+          <div className="space-y-4 text-muted-foreground">
             <p>
               Service on Wheels is a smart mobile workshop concept designed to bring select
               Maruti service jobs closer to the customer. It helps owners access maintenance,
@@ -59,7 +60,8 @@ export default function ServiceOnWheelsPage() {
           </Link>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }
 
