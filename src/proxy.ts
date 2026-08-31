@@ -1,32 +1,27 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import { resolveVisitorCity, VISITOR_CITY_COOKIE } from "@/lib/geo";
 
-// Basic auth for the internal admin tools. Set ADMIN_USER / ADMIN_PASSWORD in env;
-// if unset, admin routes are disabled entirely (503) rather than left open.
 export function proxy(request: NextRequest) {
-  const user = process.env.ADMIN_USER;
-  const password = process.env.ADMIN_PASSWORD;
+  // Already resolved (or explicitly cleared) for this browser — don't redo the work.
+  if (request.cookies.has(VISITOR_CITY_COOKIE)) return NextResponse.next();
 
-  if (!user || !password) {
-    return new NextResponse("Admin access is not configured.", { status: 503 });
-  }
+  const country = request.headers.get("x-vercel-ip-country");
+  if (country && country !== "IN") return NextResponse.next();
 
-  const auth = request.headers.get("authorization");
-  if (auth?.startsWith("Basic ")) {
-    const [givenUser, givenPassword] = Buffer.from(auth.slice(6), "base64")
-      .toString()
-      .split(":");
-    if (givenUser === user && givenPassword === password) {
-      return NextResponse.next();
-    }
-  }
+  const rawCity = request.headers.get("x-vercel-ip-city");
+  const city = resolveVisitorCity(rawCity);
 
-  return new NextResponse("Authentication required.", {
-    status: 401,
-    headers: { "WWW-Authenticate": 'Basic realm="Shivam NEXA Admin"' },
+  const response = NextResponse.next();
+  // Cache the outcome (including "no match") for a day so we don't reparse
+  // the geo headers on every navigation — this cookie is read client-side.
+  response.cookies.set(VISITOR_CITY_COOKIE, city?.slug ?? "", {
+    maxAge: 60 * 60 * 24,
+    path: "/",
+    sameSite: "lax",
   });
+  return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/import-pdf"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api|studio).*)"],
 };

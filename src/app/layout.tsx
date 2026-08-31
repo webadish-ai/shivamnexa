@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UtmCapture from "@/components/UtmCapture";
 import ChatWidget from "@/components/ChatWidget";
+import LocationBanner from "@/components/LocationBanner";
 import { autoDealerSchema } from "@/lib/schema";
 import { DEALER } from "@/lib/data";
 import { getAbsoluteUrl, SITE_URL } from "@/lib/site";
@@ -62,6 +63,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           dangerouslySetInnerHTML={{ __html: JSON.stringify(autoDealerSchema()) }}
         />
         <Header />
+        <LocationBanner />
         <UtmCapture />
         <main className="flex-1">{children}</main>
         {isDraftMode && <VisualEditing />}
