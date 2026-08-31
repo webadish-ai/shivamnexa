@@ -42,6 +42,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const SPEC_CATEGORY_ICONS: Record<string, string> = {
+  "Engine & Performance": "⚙️",
+  "Transmission": "🔧",
+  "Dimensions & Capacity": "📐",
+  "Technology & Comfort": "💻",
+  "Safety": "🛡️",
+};
+
 const NAV_ITEMS = [
   { id: "overview", label: "Overview" },
   { id: "gallery", label: "Gallery" },
@@ -316,27 +324,38 @@ export default async function CarModelPage({ params }: Props) {
         {/* ── SPECIFICATIONS ───────────────────────────── */}
         {car.specs && car.specs.length > 0 && (
           <section id="specs" className="scroll-mt-20">
-            <h2 className="text-2xl font-bold mb-6">{car.fullName} Full Specifications</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {car.specs.map((group) => (
-                <div key={group.category} className="rounded-xl border overflow-hidden">
-                  <div className="bg-muted/60 px-5 py-3">
-                    <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
-                      {group.category}
-                    </h3>
-                  </div>
-                  <table className="w-full text-sm">
-                    <tbody>
-                      {group.items.map((item, i) => (
-                        <tr key={item.label} className={i % 2 === 0 ? "bg-card" : "bg-muted/20"}>
-                          <td className="px-5 py-3 text-muted-foreground w-1/2">{item.label}</td>
-                          <td className="px-5 py-3 font-medium">{item.value}</td>
-                        </tr>
+            <h2 className="text-2xl font-bold mb-1">{car.fullName} Full Specifications</h2>
+            <p className="text-muted-foreground text-sm mb-6">
+              Everything you need to know — engine, dimensions, comfort &amp; safety.
+            </p>
+            <div className="grid md:grid-cols-2 gap-5">
+              {car.specs.map((group) => {
+                const icon = SPEC_CATEGORY_ICONS[group.category] ?? "•";
+                return (
+                  <div
+                    key={group.category}
+                    className="rounded-2xl border bg-card overflow-hidden hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-center gap-3 px-6 pt-5 pb-4">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-lg">
+                        {icon}
+                      </span>
+                      <h3 className="font-bold text-base">{group.category}</h3>
+                    </div>
+                    <dl className="px-6 pb-5 divide-y">
+                      {group.items.map((item) => (
+                        <div
+                          key={item.label}
+                          className="flex items-center justify-between gap-4 py-3"
+                        >
+                          <dt className="text-sm text-muted-foreground">{item.label}</dt>
+                          <dd className="text-sm font-semibold text-right">{item.value}</dd>
+                        </div>
                       ))}
-                    </tbody>
-                  </table>
-                </div>
-              ))}
+                    </dl>
+                  </div>
+                );
+              })}
             </div>
           </section>
         )}
