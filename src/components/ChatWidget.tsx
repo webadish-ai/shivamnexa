@@ -68,13 +68,13 @@ export default function ChatWidget() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close chat" : "Chat with Nexa Buddy"}
-        className="fixed right-4 bottom-20 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        className="fixed right-4 bottom-36 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       >
         <span className="text-2xl leading-none">{open ? "✕" : "🤖"}</span>
       </button>
 
       {open && (
-        <div className="fixed z-50 right-0 bottom-0 sm:right-4 sm:bottom-36 w-full sm:w-[380px] h-[100dvh] sm:h-[560px] sm:max-h-[calc(100dvh-10rem)] flex flex-col bg-card border sm:rounded-2xl shadow-2xl overflow-hidden">
+        <div className="fixed z-50 right-0 bottom-0 sm:right-4 sm:bottom-52 w-full sm:w-[380px] h-[100dvh] sm:h-[560px] sm:max-h-[calc(100dvh-13rem)] flex flex-col bg-card border sm:rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b bg-primary text-primary-foreground">
             <span className="text-2xl">🤖</span>

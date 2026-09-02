@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import UtmCapture from "@/components/UtmCapture";
 import ChatWidget from "@/components/ChatWidget";
 import LocationBanner from "@/components/LocationBanner";
+import StickyActionBar from "@/components/StickyActionBar";
 import { autoDealerSchema } from "@/lib/schema";
 import { DEALER } from "@/lib/data";
 import { getAbsoluteUrl, SITE_URL } from "@/lib/site";
@@ -65,7 +66,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Header />
         <LocationBanner />
         <UtmCapture />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pb-16">{children}</main>
         {isDraftMode && <VisualEditing />}
         <SanityLive />
         <a
@@ -73,11 +74,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Chat on WhatsApp"
-          className="fixed right-4 bottom-4 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
+          className="fixed right-4 bottom-20 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
         >
           <span className="text-2xl leading-none">💬</span>
         </a>
         <ChatWidget />
+        <StickyActionBar />
         <Footer />
       </body>
     </html>

@@ -551,26 +551,6 @@ export default async function CarModelPage({ params }: Props) {
         </section>
       </div>
 
-      {/* ── MOBILE STICKY CTA ────────────────────────── */}
-      <div className="fixed bottom-20 left-0 right-0 px-4 z-30 pointer-events-none lg:hidden">
-        <div className="max-w-sm mx-auto flex gap-2 pointer-events-auto">
-          <LinkButton
-            size="lg"
-            href={`/contact?car=${car.slug}&type=test-drive`}
-            className="flex-1 shadow-lg"
-          >
-            Book Test Drive
-          </LinkButton>
-          <a
-            href={`https://wa.me/91${DEALER.phone}?text=Hi, I need a price quote for ${car.fullName}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center px-4 rounded-md bg-[#25D366] text-white font-medium text-sm shadow-lg"
-          >
-            💬
-          </a>
-        </div>
-      </div>
     </>
   );
 }
