@@ -12,6 +12,7 @@ import EmiCalculator from "@/components/EmiCalculator";
 import ExchangeForm from "@/components/ExchangeForm";
 import CarGallery from "@/components/CarGallery";
 import { getCarGalleryImages } from "@/lib/gallery";
+import { DESIGN_HIGHLIGHTS } from "@/lib/designHighlights";
 import {
   DEALER,
   formatPrice,
@@ -74,6 +75,7 @@ export default async function CarModelPage({ params }: Props) {
 
   const onRoadBase = estimateOnRoadPrice(car.startingPrice);
   const galleryImages = getCarGalleryImages(car.slug);
+  const designHighlights = DESIGN_HIGHLIGHTS[car.slug] ?? [];
   const navItems = NAV_ITEMS.filter((n) => {
     if (n.id === "specs") return Boolean(car.specs?.length);
     if (n.id === "gallery") return galleryImages.length > 0;
@@ -222,6 +224,38 @@ export default async function CarModelPage({ params }: Props) {
                   <span className="text-4xl block mb-4">{h.icon}</span>
                   <h3 className="font-bold text-base mb-2">{h.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{h.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── DESIGN & TECHNOLOGY HIGHLIGHTS ───────────── */}
+        {designHighlights.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold mb-1">Design &amp; Technology Highlights</h2>
+            <p className="text-muted-foreground text-sm mb-6">
+              A closer look at what sets the {car.name} apart.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-6">
+              {designHighlights.map((h) => (
+                <div
+                  key={h.title}
+                  className="rounded-2xl border bg-card overflow-hidden hover:shadow-md transition-shadow"
+                >
+                  <div className="relative aspect-[16/10] bg-muted">
+                    <Image
+                      src={h.image}
+                      alt={h.title}
+                      fill
+                      sizes="(min-width: 1024px) 45vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-bold text-base mb-2">{h.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{h.description}</p>
+                  </div>
                 </div>
               ))}
             </div>
